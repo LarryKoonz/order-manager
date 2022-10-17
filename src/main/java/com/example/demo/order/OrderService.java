@@ -47,40 +47,36 @@ public class OrderService {
     public void changeOrder(Long orderId, String name){
         Order dbOrder = orderRepository.findOrderById(orderId).orElseThrow(()
                 -> new IllegalStateException("order with id " + orderId + " doesn't exist"));
-        if (dbOrder.wasOrderedBeforeSpecifiedPeriod(0, 0, 0, 15 * 60)){
-            dbOrder.setName(name);
+        if (isValidOrderName(name)){
+            if (dbOrder.wasOrderedBeforeSpecifiedPeriod(0, 0, 0, 15 * 60)){
+                dbOrder.setName(name);
+            }else{
+                throw new IllegalStateException("The given order can't be changed, because it has exceeded the time that we can change it");
+            }
         }else{
-            throw new IllegalStateException("The given order can't be changed, because it has exceeded the time that we can change it");
+            throw new IllegalArgumentException("The order name: " + name + " is invalid");
         }
+
+    }
+
+    private Optional<List<Order>> getOptionalOrdersByLastDaysWeeksMonths(long days, long weeks, long months){
+        ZonedDateTime currentTime = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
+        ZonedDateTime currentTimeMinusTime = currentTime.minusDays(days).minusWeeks(weeks).minusMonths(months);
+        return orderRepository.findOrdersByTimeStampBetween(currentTimeMinusTime, currentTime);
     }
 
     public List<Order> getLastMonthOrders(){
-        ZonedDateTime currentTime = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-        ZonedDateTime currentTimeMinusOneMonth = currentTime.minusMonths(1);
-        Optional<List<Order>> dbOrders = orderRepository.findOrdersByTimeStampBetween(currentTimeMinusOneMonth, currentTime);
-        if (dbOrders.isEmpty()){
-            throw new IllegalStateException("There are no orders in the last month");
-        }
+        Optional<List<Order>> dbOrders = getOptionalOrdersByLastDaysWeeksMonths(0,0,1);
         return dbOrders.get();
     }
 
     public List<Order> getLastWeekOrders() {
-        ZonedDateTime currentTime = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-        ZonedDateTime currentTimeMinusOneWeek = currentTime.minusWeeks(1);
-        Optional<List<Order>> dbOrders = orderRepository.findOrdersByTimeStampBetween(currentTimeMinusOneWeek, currentTime);
-        if (dbOrders.isEmpty()){
-            throw new IllegalStateException("There are no orders in the last week");
-        }
+        Optional<List<Order>> dbOrders = getOptionalOrdersByLastDaysWeeksMonths(0,1,0);
         return dbOrders.get();
     }
 
     public List<Order> getLastDayOrders() {
-        ZonedDateTime currentTime = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-        ZonedDateTime currentTimeMinusOneDay = currentTime.minusDays(1);
-        Optional<List<Order>> dbOrders = orderRepository.findOrdersByTimeStampBetween(currentTimeMinusOneDay, currentTime);
-        if (dbOrders.isEmpty()){
-            throw new IllegalStateException("There are no orders in the last day");
-        }
+        Optional<List<Order>> dbOrders = getOptionalOrdersByLastDaysWeeksMonths(1,0,0);
         return dbOrders.get();
     }
 }

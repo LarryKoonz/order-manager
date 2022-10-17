@@ -4,18 +4,10 @@ import javax.persistence.*;
 import java.time.*;
 
 @Entity
-@Table
+@Table(name="orders")
 public class Order {
     @Id
-    @SequenceGenerator(
-            name = "order_sequence",
-            sequenceName = "order_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "order_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private ZonedDateTime timeStamp;
