@@ -11,13 +11,26 @@ public class Order {
     private long id;
     private String name;
     private ZonedDateTime timeStamp;
+    private LocalDateTime localDateTime; // TODO remove after testing
+
+//    public Order(long id, String name, ZonedDateTime timeStamp){
+//        this.id = id;
+//        this.name = name;
+//        this.timeStamp = timeStamp;
+//    }
+
+    public Order(long id, String name, LocalDateTime localDateTime){ // TODO remove after testing
+        this.id = id;
+        this.name = name;
+        this.localDateTime = localDateTime;
+    }
+
+    public LocalDateTime getLocalDateTime() { // TODO remove after testing
+        return localDateTime;
+    }
 
     public Order(String name) {
         this.name = name;
-    }
-
-    public Order() {
-
     }
 
     public String getName() {
@@ -30,6 +43,10 @@ public class Order {
 
     public void setTimeStamp(ZonedDateTime timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public ZonedDateTime getTimeStamp(){
+        return this.timeStamp;
     }
 
     public boolean wasOrderedBeforeSpecifiedPeriod(int years, int months, int days, long seconds){
