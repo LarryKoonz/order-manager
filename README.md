@@ -24,9 +24,13 @@ git clone https://github.com/LarryKoonz/order-manager.git
 cd order-manager
 chmod +x mvnw
 sudo docker build -t order-manager .
-sudo docker-compose up
+sudo docker compose up
 ```
-Now you can perform requests to consume the API at http://localhost:8080/api/v1/order with the endpoints that are described [here](#how_to_use).
+Now you can perform requests to consume the API at http://localhost:8080/api/v1/order with the endpoints that are described [here](#how_to_use).<br />
+After exiting the application run the followinng command:
+```bash
+sudo docker compose down
+```
 
 ## How to Use<a name="how_to_use"/>
 ### Get order
