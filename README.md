@@ -15,10 +15,24 @@ REST API for managing online orders of a restaurant.
 - PostgreSQL Driver
 
 ## How to Set Up and Run the Project<a name="how_to_set_up_and_run_the_project"/>
-
+Before setting up and running the project make sure that you have [Docker](https://docs.docker.com/engine/install/) and [Maven](https://maven.apache.org/) on your machine.<br />
+There are two options:
+1. Download the docker image from [here](https://hub.docker.com/) and follow the instructions [here](https://docs.docker.com/engine/reference/commandline/run/) on running the image that you have downloaded.
+2. Run the following commands in your terminal:
+```bash
+git clone https://github.com/LarryKoonz/order-manager.git
+cd order-manager
+chmod +x mvnw
+sudo docker build -t order-manager .
+sudo docker compose up
+```
+Now you can perform requests to consume the API at http://localhost:8080/api/v1/order with the endpoints that are described [here](#how_to_use).<br />
+After exiting the application run the followinng command:
+```bash
+sudo docker compose down
+```
 
 ## How to Use<a name="how_to_use"/>
-With the web server and the Postgresql started and running, perform the following requests to consume the API:
 ### Get order
 - **GET** api/v1/order/{id}
 - **Accept**: application/JSON
@@ -57,3 +71,7 @@ With the web server and the Postgresql started and running, perform the followin
 
 
 ## Error Codes<a name="error_codes"/>
+| Code | Description    | Reason    |
+| :---:   | :---: | :---: |
+| 400 | Bad Request   | Missing parameters or invalid parameters.   |
+| 404 | Not Found   | Value was not found in data base.   |
