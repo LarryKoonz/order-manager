@@ -23,6 +23,7 @@ There are two options:
 git clone https://github.com/LarryKoonz/order-manager.git
 cd order-manager
 chmod +x mvnw
+mvn -N wrapper:wrapper
 sudo docker build -t order-manager .
 sudo docker compose up
 ```
