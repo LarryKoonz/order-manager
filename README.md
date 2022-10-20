@@ -16,9 +16,7 @@ REST API for managing online orders of a restaurant.
 
 ## How to Set Up and Run the Project<a name="how_to_set_up_and_run_the_project"/>
 Before setting up and running the project make sure that you have [Docker](https://docs.docker.com/engine/install/) and [Maven](https://maven.apache.org/) on your machine.<br />
-There are two options:
-1. Download the docker image from [here](https://hub.docker.com/) and follow the instructions [here](https://docs.docker.com/engine/reference/commandline/run/) on running the image that you have downloaded.
-2. Run the following commands in your terminal:
+Run the following commands in your terminal:
 ```bash
 git clone https://github.com/LarryKoonz/order-manager.git
 cd order-manager
