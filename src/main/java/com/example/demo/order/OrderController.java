@@ -38,10 +38,11 @@ public class OrderController {
 
     @ResponseStatus(code=HttpStatus.CREATED)
     @PostMapping
-    public void addNewOrder(@RequestBody Order order){
+    public Order addNewOrder(@RequestBody Order order){
         logger.info("Adding new order");
         try{
-            orderService.addNewOrder(order);
+            order = orderService.addNewOrder(order); // TODO remove after testing
+            return orderService.addNewOrder(order);
         }catch(IllegalArgumentException ex){
             logger.error("The order name: " + order.getName() + " is invalid");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

@@ -33,11 +33,11 @@ public class OrderService {
         return !(name.trim().isEmpty());
     }
 
-    public void addNewOrder(Order order) {
+    public Order addNewOrder(Order order) {
         if (isValidOrderName(order.getName())){
             ZonedDateTime timeStamp = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
             order.setTimeStamp(timeStamp);
-            orderRepository.save(order);
+            return orderRepository.save(order);
         }else{
             throw new IllegalArgumentException("The order name: " + order.getName() + " is invalid");
         }
@@ -48,10 +48,11 @@ public class OrderService {
         Order dbOrder = orderRepository.findOrderById(orderId).orElseThrow(()
                 -> new IllegalStateException("order with id " + orderId + " doesn't exist"));
         if (isValidOrderName(name)){
-            if (dbOrder.wasOrderedBeforeSpecifiedPeriod(0, 0, 0, 15 * 60)){
+            if (dbOrder.wasOrderedBeforeSpecifiedPeriod(0, 0, 0, 15)){
                 dbOrder.setName(name);
             }else{
-                throw new IllegalStateException("The given order can't be changed, because it has exceeded the time that we can change it");
+                throw new IllegalStateException("The given order can't be changed, because it has exceeded" +
+                        " the time that we can change it");
             }
         }else{
             throw new IllegalArgumentException("The order name: " + name + " is invalid");
