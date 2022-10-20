@@ -65,7 +65,7 @@ sudo docker compose down
 - **Code**: 200 OK
 
 ### Change order (that was scheduled 15 minutes ago)
-- **PUT** api/v1/order/{id}
+- **PUT** api/v1/order/{id}?name={newName}
 - **Accept**: application/JSON
 - **Content-Type**: application/JSON
 - **Code**: 204 NO CONTENT
